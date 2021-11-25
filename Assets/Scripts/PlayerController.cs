@@ -4,25 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float jumpHeight = 2f;
-    public float jumpSize = 3f;
-    
-    public float walkSpeed = 0.8f;
+    public int levelPercentage = 0;
+    public float level = 2;
 
-    private bool isJumping;
-    private bool jumped = false;
-    private bool landed = false;
+    private int remainingJumps = 2;
 
-
-    private float timeToJump = 0.5f;
-    private float timeToReset = 1.3f;
-
-    private Vector3 targetPos;
-    private Vector3 jumpPeak;
-    private Vector3 resetPos;
-
-
-
+    private float jumpForce = 110;     //define how strong the jump should be, e.g. how high the player flies
     // Start is called before the first frame update
     void Start()
     {
@@ -33,73 +20,33 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-/*         transform.Translate(Vector3.right * Time.deltaTime * walkSpeed);
-        transform.Translate(Vector3.down * Time.deltaTime * walkSpeed); */
 
-        if(Input.GetKeyUp(KeyCode.Space) && !jumped && !isJumping)
+        /* if(Input.GetKey(KeyCode.Space))
         {
-            isJumping = true;
-            targetPos = transform.position + new Vector3(timeToReset, 0, 0);
-            jumpPeak = transform.position + new Vector3(1, jumpHeight, 0);
-            resetPos = transform.position;
+            jumpForce += 0.2f;
+        } */
+        if(Input.GetKeyDown(KeyCode.Space) && remainingJumps > 0)       //make rigidbody jump when space-button is pressed but only 2 consecutive times
+        {
+            GetComponent<Rigidbody>().AddForce(new Vector3(0.5f, jumpForce, 0), ForceMode.Impulse);
+            remainingJumps -= 1;
+            levelPercentage += 1;            //count number of jumps so far
+           // Debug.Log(levelPercentage);
+        }
 
-            StartCoroutine("Jump");
-        }
-        if(jumped)
+
+        if(levelPercentage >= 10)      //increase speed of everything if certain number of jumps is reached
         {
-            StartCoroutine("Land");
-            jumped = false;
-        }
-        if(landed)
-        {
-            StartCoroutine("Reset");
-            landed = false;
+            level += 1;         
+            levelPercentage = 0;
+          //Debug.Log(level);
         }
 
         
-    }
+    }    
 
-
-
-    public IEnumerator Jump()
-   {
-        var currentPos = transform.position;
-        float t = 0f;
-        while(t < 1f)
-        {
-            t += Time.deltaTime / timeToJump;
-            transform.position = Vector3.Slerp(currentPos, jumpPeak, t);
-            yield return null;
-        }
-        jumped = true;
-   }
-
-    public IEnumerator Land()
+    private void OnCollisionEnter(Collision collision)     //reset number of jumps possible if player hits floor again
     {
-        var currentPos = transform.position;
-        float t = 0f;
-        while(t < 1f)
-            {
-                t += Time.deltaTime / timeToJump;
-                transform.position = Vector3.Lerp(currentPos, targetPos, t);
-                yield return null;
-            }
-        landed = true;
-
+        remainingJumps = 2;
     }
-
-    public IEnumerator Reset()
-    {
-        var currentPos = transform.position;
-        float t = 0f;
-        while(t < 1f)
-            {
-                t += Time.deltaTime / timeToReset;
-                transform.position = Vector3.Lerp(currentPos, resetPos, t);
-                yield return null;
-            }
-        isJumping = false;
-    }
-      
 
 }

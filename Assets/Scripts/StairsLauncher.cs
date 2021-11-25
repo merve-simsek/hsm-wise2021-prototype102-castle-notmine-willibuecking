@@ -4,16 +4,39 @@ using UnityEngine;
 
 public class StairsLauncher : MonoBehaviour
 {
-    public GameObject Stairs;
+    public GameObject Stairs;       
+
+
+    private float timeToLaunch;
+
+    private float levelNumber;
+
+    private bool stairLaunched = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("LaunchStairs", 1.0f, 1.0f);
+        
     }
 
-    // Update is called once per frame
-    void LaunchStairs()
+    void Update()
+    {   
+        levelNumber = GameObject.Find("Player").GetComponent<PlayerController>().level;
+        timeToLaunch = (1f/levelNumber)-0.001f;
+
+        if(!stairLaunched)
+        {
+            StartCoroutine("StairLaunch");
+            stairLaunched = true;
+        }
+    }
+
+    public IEnumerator StairLaunch()
     {
-        Instantiate(Stairs, transform.position, Stairs.transform.rotation);
+        yield return new WaitForSeconds(timeToLaunch);
+        
+        Instantiate(Stairs, transform.position, transform.rotation);
+        
+        stairLaunched = false;        
     }
 }
