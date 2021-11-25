@@ -8,7 +8,7 @@ public class StairsLauncher : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("LaunchStairs", 2.0f, 2.0f);
+        InvokeRepeating("LaunchStairs", 1.0f, 1.0f);
     }
 
     // Update is called once per frame
