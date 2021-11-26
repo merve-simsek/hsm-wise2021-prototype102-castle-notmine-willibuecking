@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     private int remainingJumps = 2;
 
-    private float jumpForce = 110;     //define how strong the jump should be, e.g. how high the player flies
+    private float jumpForce = 300;     //define how strong the jump should be, e.g. how high the player flies
     // Start is called before the first frame update
     void Start()
     {
@@ -27,14 +27,14 @@ public class PlayerController : MonoBehaviour
         } */
         if(Input.GetKeyDown(KeyCode.Space) && remainingJumps > 0)       //make rigidbody jump when space-button is pressed but only 2 consecutive times
         {
-            GetComponent<Rigidbody>().AddForce(new Vector3(0.5f, jumpForce, 0), ForceMode.Impulse);
+            GetComponent<Rigidbody>().AddForce(new Vector3(15, jumpForce, 0), ForceMode.Impulse);
             remainingJumps -= 1;
             levelPercentage += 1;            //count number of jumps so far
            // Debug.Log(levelPercentage);
         }
 
 
-        if(levelPercentage >= 10)      //increase speed of everything if certain number of jumps is reached
+        if(levelPercentage >= level*10)      //increase speed of everything if certain number of jumps is reached
         {
             level += 1;         
             levelPercentage = 0;

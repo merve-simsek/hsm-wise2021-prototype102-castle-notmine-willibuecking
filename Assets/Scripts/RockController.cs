@@ -17,9 +17,12 @@ public class RockController : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)     //destroy rock if it hits a set of stairs
+    public void OnTriggerEnter(Collider other)     //destroy rock if it hits a set of stairs
     {
+        if (other.tag == "Rock")
+        {
         Instantiate(explosion, transform.position, transform.rotation);
         Destroy(gameObject);
+        }
     }
 }
