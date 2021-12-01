@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/TowerRun.unity
+    guid: f73771f1bbdf4454c89be2ec88a95300
   m_configObjects: {}
