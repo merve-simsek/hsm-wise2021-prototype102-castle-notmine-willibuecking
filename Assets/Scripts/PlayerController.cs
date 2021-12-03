@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerController : MonoBehaviour
 {
     public int levelPercentage = 0;
@@ -10,6 +11,9 @@ public class PlayerController : MonoBehaviour
     private int remainingJumps = 2;
 
     private float jumpForce = 300;     //define how strong the jump should be, e.g. how high the player flies
+
+    public RestartScene scenerestarter;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,12 +45,29 @@ public class PlayerController : MonoBehaviour
           //Debug.Log(level);
         }
 
+        if (transform.position.y <= -10)        //restart scene if player falls down
+        {
+            scenerestarter.Restart();
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        }
+
         
     }    
 
     private void OnCollisionEnter(Collision collision)     //reset number of jumps possible if player hits floor again
     {
         remainingJumps = 2;
+    }
+
+    public void OnCollisionEnter(Collider other)     //destroy rock if it hits a set of stairs
+    {
+        if (other.tag == "Rock")       //destroy rock if it hits a stair or falls out of bounds
+        {
+        //Instantiate(explosion, transform.position, transform.rotation);
+        Destroy(gameObject);
+        scenerestarter.Restart();
+        }
     }
     
 
