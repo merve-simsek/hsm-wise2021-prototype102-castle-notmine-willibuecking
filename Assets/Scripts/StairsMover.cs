@@ -7,13 +7,7 @@ public class StairsMover : MonoBehaviour
 
     private float levelNumber;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    
     void Update()
     {   
         levelNumber = GameObject.Find("Player").GetComponent<PlayerController>().level;
