@@ -16,14 +16,10 @@ public class RockLauncher : MonoBehaviour
 
     private Vector3 playerRockPosition;     //variable for rocklaunch-position over players head
 
-    void Start()
-    {
-    }
 
-    // Update is called once per frame
     void Update()
     {
-        playerX  = GameObject.Find("Player").transform.position.x;              //find player position to launch rocks over head
+        playerX  = GameObject.Find("Player").transform.position.x + 4;              //find player position to launch rocks slightly in front of them
         playerZ  = GameObject.Find("Player").transform.position.z;
 
         levelNumber = GameObject.Find("Player").GetComponent<PlayerController>().level;
@@ -51,7 +47,7 @@ public class RockLauncher : MonoBehaviour
 
     public IEnumerator RockTimerPlayer()
     {
-        float timeToLaunch = Random.Range((1f/levelNumber)*3, (1f/levelNumber)*6);      //wait for a random amount of seconds between values derived from the current level
+        float timeToLaunch = Random.Range((1f/levelNumber)*10, (1f/levelNumber)*20);      //wait for a random amount of seconds between values derived from the current level
         yield return new WaitForSeconds(timeToLaunch);
         playerRockPosition = new Vector3(playerX, transform.position.y, playerZ);       //calculate launch-position right before rock is launched so it is exactly over players current position
         Instantiate(Rock, playerRockPosition, transform.rotation);      //launch a rock over the players head

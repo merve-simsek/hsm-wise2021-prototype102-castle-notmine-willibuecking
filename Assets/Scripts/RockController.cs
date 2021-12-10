@@ -5,16 +5,11 @@ using UnityEngine;
 public class RockController : MonoBehaviour
 {
     public GameObject explosion;
-    // Start is called before the first frame update
+    private AudioManager _audioManager;
+
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _audioManager = FindObjectOfType<AudioManager>();
     }
 
     public void OnTriggerEnter(Collider other)     //destroy rock if it hits a set of stairs
@@ -24,6 +19,7 @@ public class RockController : MonoBehaviour
         {
         Instantiate(explosion, transform.position, transform.rotation);
         Destroy(gameObject);
+        _audioManager.RockBreaking();
         }
     }
 }
